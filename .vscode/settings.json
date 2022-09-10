@@ -1,0 +1,23 @@
+{
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "vue",
+    "html",
+    "typescript",
+    "typescriptreact"
+  ],
+  "emmet.includeLanguages": {
+    "typescriptreact": "html"
+  },
+  "pathAlias.aliasMap": {
+    "@": "${cwd}/src"
+  },
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "less.lint.emptyRules": "ignore",
+  "editor.suggest.snippetsPreventQuickSuggestions": false
+}

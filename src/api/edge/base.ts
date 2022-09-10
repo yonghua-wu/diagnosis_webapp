@@ -1,0 +1,18 @@
+import { Http } from "@/utils/http";
+
+export interface HttpResponseBase<T> {
+  code: number;
+  msg: string;
+  data: T;
+}
+
+export default new Http({
+  // baseURL: "http://192.168.30.10:8080" + "/seeingflow-ticket",
+  // baseURL: "https://saas-gateway.dev.seeingflow.com" + "/seeingflow-ticket",
+  baseURL: process.env.VUE_APP_EDGE_BASE_URL + "/api",
+  timeout: 60000,
+  headers: {
+    Authorization:
+      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzUxMiJ9.eyJzZXgiOjEsIm5hbWUiOiLnrqHnkIblkZgiLCJzYWx0IjoiOHB4N2RlOWwiLCJ1dWlkIjoiNDRiNmMwMjYtOTdmMi00Mjk5LTg2NjktOTc3YWVkMjQwYjYxIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJwaG9uZSI6IjEyMzQ1NiIsInN0YXR1cyI6MCwid3hTYWx0IjoiOGtnaWJoZGkiLCJhY2NvdW50IjoiYWRtaW4iLCJkZXB0SWRzIjpbImQ5NDRkOTA1LWY1OTAtNGJmNy1iZWZjLTI5NTQ5NzU4ZDE5NiJdLCJwb3N0SWRzIjpbImQ2OTE2ZmVmLTI4YTMtNDgzZi05YTFmLTRhZGJhYWU0NzY0ZCJdLCJyb2xlSWRzIjpbImFjZmY2NDU4LTJiOGMtNDNlMS1iZjRmLTY4ZTA0NWZkMTkyZSJdLCJiaXJ0aGRheSI6MTYzMzQ0OTYwMDAwMCwicGFzc3dvcmQiOiJiZTY3YWJlZGJhYWFmOTIwMzBhNDU4NDA1ZGYyM2E3YSIsInNwYWNlSWRzIjpbIklOVEVSTkFMIl0sInNwYWNlX2lkIjoiSU5URVJOQUwiLCJ3eE9wZW5pZCI6IjQyMzdkOWU1MWQ5NjcxZTYzYjljZTg5M2MxMWU0NWFkIiwiY3JlYXRlX2J5IjoiSU5URVJOQUwiLCJyZWFsX25hbWUiOiLnrqHnkIblkZgiLCJ1cGRhdGVfYnkiOiI0NGI2YzAyNi05N2YyLTQyOTktODY2OS05NzdhZWQyNDBiNjEiLCJ1c2VyX3V1aWQiOiI0NGI2YzAyNi05N2YyLTQyOTktODY2OS05NzdhZWQyNDBiNjEiLCJpc19kZWxldGVkIjowLCJjcmVhdGVfdGltZSI6MTYzMzY5MDQ0NjI1NSwidXBkYXRlX3RpbWUiOjE2Mzk1MzY2NTExNDksInNlbGVjdGVkU3BhY2VJZHMiOlsiSU5URVJOQUwiXSwiaWF0IjoxNjUwMjU1NjYyLCJleHAiOjE2NjU4MDc2NjJ9.AbQSOsSyawtm1580kvx7QpcQBJsqaGn7UUvfGrA0zabLexcscDj_L7ctJnq_yOB9Yt8H1DEeb2fbqByNsCECUYVuAfo1bHRfGMmOqaCS3Yuxr3WcSqHKHESYCJxz1IVUZ31tzWZTithHucgs6NPAMFuFwCawwbw9os7pFdlPiJAIMzH6",
+  },
+});
