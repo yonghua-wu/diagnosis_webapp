@@ -96,12 +96,12 @@ export default defineComponent({
     Footer,
   },
   setup() {
-    const loading = ref(true);
-    useInitApp().finally(() => {
-      setTimeout(() => {
-        loading.value = false;
-      }, 100);
-    });
+    const loading = ref(false);
+    // useInitApp().finally(() => {
+    //   setTimeout(() => {
+    //     loading.value = false;
+    //   }, 100);
+    // });
     const appStore = useAppStore();
     // const permission = usePermission();
     useResponsive(true);

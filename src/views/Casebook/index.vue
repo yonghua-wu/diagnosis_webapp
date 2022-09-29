@@ -10,13 +10,7 @@
     @select="(keys: string[]) => (rowSelection.selectedRowKeys = keys)"
   >
     <template #breadcrumb>
-      <Breadcrumb :items="['用户管理']" />
-    </template>
-    <template #table-status="{ record }">
-      <a-switch @click.stop="() => {}" :model-value="record.data.state === 1"></a-switch>
-    </template>
-    <template #filter-productName="{ queryData }">
-      <a-input :max-length="50" v-model="queryData.productName" placeholder="搜索123" allow-clear />
+      <Breadcrumb :items="['病例管理']" />
     </template>
   </SfTablePage>
 </template>
@@ -25,17 +19,22 @@
 import { computed, defineComponent, reactive } from "vue";
 import SfTablePage, { useFilterDefaultValueQueryData, useFormatData, useQueryData, useTableColumns } from "@/components/lib/SfTablePage";
 import Breadcrumb from "@/components/Breadcrumb.vue";
-import User from "@/api/diagnosis/User";
+import Casebook from "@/api/diagnosis/Casebook";
 import { SfTableColumnData } from "@/components/lib/SfTable";
 import { TableRowSelection } from "@arco-design/web-vue";
 
-// 职称 1 初级职称 (医士、医师/住院医师)、2 中级职称 (主治医师)、3 副高级职称 (副主任医师)、4 正高级职称 (主任医师)
-const titleMap = {
-  1: "初级职称",
-  2: "中级职称",
-  3: "副高级职称",
-  4: "正高级职称",
-};
+// id: number;
+// patientDescription: string;
+// diagnosticStatus: number;
+// rvsIdentificationResult: string;
+// maIdentificationResult: string;
+// doctorAdvice: string;
+// userId: number;
+// patientId: number;
+// createdBy: string;
+// createdTime: string;
+// updatedBy: string;
+// updatedTime: string;
 export default defineComponent({
   name: "user-index",
   components: {
@@ -47,35 +46,57 @@ export default defineComponent({
       return {
         key: item.id,
         data: item,
-        username: item.username,
-        realName: item.realName,
-        workExperience: item.workExperience + "年",
-        title: titleMap[item.title as keyof typeof titleMap],
-        updatedTime: item.updatedTime,
+        ...item,
       };
     });
     const { tableColumns } = useTableColumns(
       computed<SfTableColumnData[]>(() => {
         return [
           {
-            title: "登录名",
-            dataIndex: "username",
-          },
-          {
-            title: "姓名",
-            dataIndex: "realName",
+            title: "患者",
+            dataIndex: "userId",
             ellipsis: true,
             tooltip: true,
           },
           {
-            title: "工作经验",
-            dataIndex: "workExperience",
+            title: "病例描述",
+            dataIndex: "patientDescription",
             ellipsis: true,
             tooltip: true,
           },
           {
-            title: "职称",
-            dataIndex: "title",
+            title: "诊断状态",
+            dataIndex: "diagnosticStatus",
+            ellipsis: true,
+            tooltip: true,
+          },
+          {
+            title: "RVS识别结果",
+            dataIndex: "rvsIdentificationResult",
+            ellipsis: true,
+            tooltip: true,
+          },
+          {
+            title: "MA识别结果",
+            dataIndex: "maIdentificationResult",
+            ellipsis: true,
+            tooltip: true,
+          },
+          {
+            title: "医生建议",
+            dataIndex: "doctorAdvice",
+            ellipsis: true,
+            tooltip: true,
+          },
+          {
+            title: "创建时间",
+            dataIndex: "createdTime",
+            ellipsis: true,
+            tooltip: true,
+          },
+          {
+            title: "更新时间",
+            dataIndex: "updatedTime",
             ellipsis: true,
             tooltip: true,
           },
@@ -85,14 +106,13 @@ export default defineComponent({
     );
     const { queryData } = useQueryData(tableColumns);
     const { fQueryData } = useFilterDefaultValueQueryData(queryData);
-
-    const loadData = (current: number, pageSize: number, query: any) => {
-      return User.page(current, pageSize);
-    };
     const rowSelection = reactive<TableRowSelection>({
       showCheckedAll: false,
       selectedRowKeys: [],
     });
+    const loadData = (current: number, pageSize: number, query: any) => {
+      return Casebook.page(current, pageSize);
+    };
     return {
       loadData,
       formatLoadData,

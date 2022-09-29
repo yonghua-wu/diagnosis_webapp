@@ -1,4 +1,4 @@
-import { PaginationModel } from "@/api/tenant/base";
+import { PaginationModel } from "@/api/diagnosis/base";
 import { PaginationProps, TableData, TableRowSelection } from "@arco-design/web-vue";
 import { ComputedRef, InjectionKey, Ref } from "vue";
 import { SfTableColumnData } from ".";
@@ -16,7 +16,7 @@ export interface SfTableContext {
   isSelected: Ref<boolean>;
   onSelectAll: (checked: boolean) => void;
   onRowSelect: (rowKeys: string[]) => void;
-  loadData: (showLoading?: boolean) => Promise<PaginationModel<TableData[]>>;
+  loadData: (showLoading?: boolean) => Promise<PaginationModel<TableData>>;
 }
 
 export const sfTableInjectKey: InjectionKey<SfTableContext> = Symbol("sfTableInjectKey");

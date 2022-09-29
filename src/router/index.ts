@@ -12,6 +12,10 @@ import LoginView from "../views/Auth/Login.vue";
 import ForgetPasswordView from "../views/Auth/ForgetPassword.vue";
 
 import Board from "./modules/Board";
+import User from "./modules/User";
+import Casebook from "./modules/Casebook";
+import Model from "./modules/Model";
+import Image from "./modules/Image";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +24,10 @@ const routes: Array<RouteRecordRaw> = [
     component: IndexLayout,
     children: [
       ...Board,
+      ...User,
+      ...Casebook,
+      ...Model,
+      ...Image,
       {
         path: "/403",
         name: "Exception403",

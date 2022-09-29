@@ -1,4 +1,4 @@
-import { PaginationModel } from "@/api/tenant/base";
+import { PaginationModel } from "@/api/diagnosis/base";
 import Message from "@/utils/Message";
 import { deepClone } from "@/utils/utils";
 import { Modal, PaginationProps, TableData, TableRowSelection } from "@arco-design/web-vue";
@@ -60,7 +60,7 @@ export function useFilterDefaultValueQueryData(queryData: Record<string, any>) {
  * @returns 自定义请求数据格式化方法 + 扩展方法
  */
 export function useFormatData<T>(formatHandler: (item: T) => TableData) {
-  const formatLoadData = (data: Ref<PaginationModel<T[]> | undefined>) => {
+  const formatLoadData = (data: Ref<PaginationModel<T> | undefined>) => {
     return computed<TableData[]>(() => {
       if (data.value) {
         return data.value?.list?.map(formatHandler).map((item, index) => {
@@ -69,7 +69,7 @@ export function useFormatData<T>(formatHandler: (item: T) => TableData) {
             updatedTime: item.data.updatedTime,
             updatedBy: item.data.updatedBy,
             createdBy: item.data.createdBy,
-            NO: (((data.value as PaginationModel<T[]>).pageNum || 1) - 1) * ((data.value as PaginationModel<T[]>).pageSize || 0) + index + 1,
+            NO: (((data.value as PaginationModel<T>).current || 1) - 1) * ((data.value as PaginationModel<T>).size || 0) + index + 1,
             ...item,
           };
         });
@@ -98,20 +98,20 @@ export function useTableColumns(
     ellipsis: true,
     tooltip: true,
     width: 100,
-    filterable: {
-      align: "filter-bar",
-      type: "search",
-    },
+    // filterable: {
+    //   align: "filter-bar",
+    //   type: "search",
+    // },
   });
   const timeAttr = () => ({
     ellipsis: true,
     tooltip: true,
     width: 180,
-    filterable: {
-      sort: 99,
-      align: "filter-bar",
-      type: "range-picker",
-    },
+    // filterable: {
+    //   sort: 99,
+    //   align: "filter-bar",
+    //   type: "range-picker",
+    // },
   });
   const tableColumns = computed<SfTableColumnData[]>(() => {
     const cols: SfTableColumnData[] = [];
@@ -321,14 +321,14 @@ export default defineComponent({
      * 加载数据方法
      */
     loadData: {
-      type: Function as PropType<(current: number, pageSize: number, queryData: any) => Promise<PaginationModel<any[]>>>,
+      type: Function as PropType<(current: number, pageSize: number, queryData: any) => Promise<PaginationModel<any>>>,
       required: true,
     },
     /**
      * 格式化数据方法，返回值必须是计算属性
      */
     formatLoadData: {
-      type: Function as PropType<(data: Ref<PaginationModel<any[]> | undefined>) => ComputedRef<TableData[]>>,
+      type: Function as PropType<(data: Ref<PaginationModel<any> | undefined>) => ComputedRef<TableData[]>>,
       required: true,
     },
     /**

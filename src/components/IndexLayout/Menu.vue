@@ -13,20 +13,20 @@ export default defineComponent({
       return router.getRoutes().find((el) => el.name === "root") as RouteRecordNormalized;
     });
     const appStore = useAppStore();
-    const permissionsMap = computed(() => {
-      const map: any = {};
-      (appStore.permissions as string[])
-        .filter((perm: string) => {
-          return perm.split(":").length === 3;
-        })
-        .map((perm: string) => {
-          return perm.split(":")[2];
-        })
-        .forEach((perm) => {
-          map[perm] = true;
-        });
-      return map;
-    });
+    // const permissionsMap = computed(() => {
+    //   const map: any = {};
+    //   (appStore.permissions as string[])
+    //     .filter((perm: string) => {
+    //       return perm.split(":").length === 3;
+    //     })
+    //     .map((perm: string) => {
+    //       return perm.split(":")[2];
+    //     })
+    //     .forEach((perm) => {
+    //       map[perm] = true;
+    //     });
+    //   return map;
+    // });
 
     onBeforeRouteUpdate(async (to, from, next) => {
       const map: any = {};
@@ -40,49 +40,49 @@ export default defineComponent({
       }
       const route = to;
       if (route) {
-        const { meta } = route;
-        if (meta && meta.permission) {
-          const permissions = meta.permission as string;
-          if (permissionsMap.value[permissions] !== true) {
-            Message.error("没有权限");
-            next("/403");
-            return;
-          }
-        }
+        // const { meta } = route;
+        // if (meta && meta.permission) {
+        //   const permissions = meta.permission as string;
+        //   if (permissionsMap.value[permissions] !== true) {
+        //     Message.error("没有权限");
+        //     next("/403");
+        //     return;
+        //   }
+        // }
         next();
       }
     });
     const route = useRoute();
-    const checkRoute = () => {
-      const permissions = route.meta.permission as string;
-      if (permissions && permissionsMap.value[permissions] !== true) {
-        Message.error("没有权限");
-        router.push("/403");
-        return;
-      }
-      if (route.name === "root") {
-        console.log(appRoute.value.children);
-        // appRoute.value.children.forEach((r) => {
-        const children = appRoute.value.children;
-        for (let i = 0; i < children.length; i++) {
-          if (children[i].meta?.permission && permissionsMap.value[children[i].meta?.permission as string] === true) {
-            router.push({ name: children[i].name });
-            return;
-          } else if (children[i].children?.length) {
-            const cc = children[i].children as RouteRecordRaw[];
-            for (let j = 0; j < cc.length; j++) {
-              if (cc[j].meta?.permission && permissionsMap.value[cc?.[j].meta?.permission as string] === true) {
-                router.push({ name: cc[j].name });
-                return;
-              }
-            }
-          }
-        }
-      }
-    };
-    setTimeout(() => {
-      checkRoute();
-    }, 1);
+    // const checkRoute = () => {
+    //   // const permissions = route.meta.permission as string;
+    //   // if (permissions && permissionsMap.value[permissions] !== true) {
+    //   //   Message.error("没有权限");
+    //   //   router.push("/403");
+    //   //   return;
+    //   // }
+    //   if (route.name === "root") {
+    //     console.log(appRoute.value.children);
+    //     // appRoute.value.children.forEach((r) => {
+    //     const children = appRoute.value.children;
+    //     for (let i = 0; i < children.length; i++) {
+    //       if (children[i].meta?.permission) {
+    //         router.push({ name: children[i].name });
+    //         return;
+    //       } else if (children[i].children?.length) {
+    //         const cc = children[i].children as RouteRecordRaw[];
+    //         for (let j = 0; j < cc.length; j++) {
+    //           if (cc[j].meta?.permission && permissionsMap.value[cc?.[j].meta?.permission as string] === true) {
+    //             router.push({ name: cc[j].name });
+    //             return;
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // };
+    // setTimeout(() => {
+    //   checkRoute();
+    // }, 1);
     // appRoute.value
 
     const collapsed = computed({
@@ -149,11 +149,11 @@ export default defineComponent({
               // 如果有子菜单则使用sub-menu
               const child = element?.children?.filter((elem) => {
                 // console.log(elem, elem?.meta?.permission);
-                if (elem?.meta?.permission) {
-                  return elem?.meta?.permission ? permissionsMap.value[elem?.meta?.permission as any] || false : true;
-                } else {
-                  return true;
-                }
+                // if (elem?.meta?.permission) {
+                //   return elem?.meta?.permission ? permissionsMap.value[elem?.meta?.permission as any] || false : true;
+                // } else {
+                // }
+                return true;
               });
               if (child.length === 0) {
                 subMenuItem = null;
@@ -172,21 +172,21 @@ export default defineComponent({
               }
             } else {
               // 否则用menu-item
-              if (element?.meta?.permission && permissionsMap.value[element?.meta?.permission as any]) {
-                subMenuItem = (
-                  <a-menu-item
-                    key={element?.name}
-                    onClick={() => goto(element)}
-                    v-slots={{
-                      icon: () => h(compile(icon)),
-                    }}
-                  >
-                    {String(element?.meta?.locale || "")}
-                  </a-menu-item>
-                );
-              } else {
-                subMenuItem = null;
-              }
+              // if (element?.meta?.permission && permissionsMap.value[element?.meta?.permission as any]) {
+              // } else {
+              //   subMenuItem = null;
+              // }
+              subMenuItem = (
+                <a-menu-item
+                  key={element?.name}
+                  onClick={() => goto(element)}
+                  v-slots={{
+                    icon: () => h(compile(icon)),
+                  }}
+                >
+                  {String(element?.meta?.locale || "")}
+                </a-menu-item>
+              );
             }
             nodes.push(subMenuItem as never);
           });

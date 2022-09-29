@@ -36,13 +36,13 @@
           </template>
         </a-dropdown>
       </li> -->
-      <li>
+      <!-- <li>
         <a-select :options="blockOptions" v-model="block" :loading="blockLoading">
           <template #prefix>
             <icon-location />
           </template>
         </a-select>
-      </li>
+      </li> -->
       <li>
         <a-tooltip :content="theme === 'light' ? '深色模式' : '亮色模式'">
           <a-button class="nav-btn" type="outline" :shape="'circle'" @click="() => toggleTheme()">
@@ -183,9 +183,6 @@ export default defineComponent({
     const appStore = useAppStore();
     const userStore = useUserStore();
     const router = useRouter();
-    // const { logout } = useUser();
-    // const { changeLocale } = useLocale();
-    // const locales = [...LOCALE_OPTIONS];
     const avatar = computed(() => {
       return (appStore.userInfo as any)?.userIcon;
     });
@@ -246,7 +243,7 @@ export default defineComponent({
             });
         },
         onCancel: () => {
-          // Message.info("取消退出登录");
+          //
         },
       });
     };
@@ -285,18 +282,18 @@ export default defineComponent({
       localStorage.setItem("current_block", block.value);
       blockEvent.emit("switch");
     });
-    Block.getAll()
-      .then((res) => {
-        blockOptions.value = res.map((item) => {
-          return {
-            label: item.name,
-            value: item.blockId,
-          };
-        });
-      })
-      .finally(() => {
-        blockLoading.value = false;
-      });
+    // Block.getAll()
+    //   .then((res) => {
+    //     blockOptions.value = res.map((item) => {
+    //       return {
+    //         label: item.name,
+    //         value: item.blockId,
+    //       };
+    //     });
+    //   })
+    //   .finally(() => {
+    //     blockLoading.value = false;
+    //   });
 
     return {
       blockOptions,

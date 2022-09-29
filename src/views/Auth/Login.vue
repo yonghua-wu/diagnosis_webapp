@@ -57,6 +57,7 @@ import { defineComponent, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Auth from "@/api/tenant/Auth";
 import Message from "@/utils/Message";
+import User from "@/api/diagnosis/User";
 export default defineComponent({
   name: "LoginView",
   setup() {
@@ -139,7 +140,7 @@ export default defineComponent({
         validate.account.help = "";
       }
       loading.value = true;
-      Auth.login(formData.account, formData.password)
+      User.login(formData.account, formData.password)
         .then(() => {
           if (route.query.redirect && !/403$/.test(route.query?.redirect as string)) {
             router.push(route.query.redirect as string);

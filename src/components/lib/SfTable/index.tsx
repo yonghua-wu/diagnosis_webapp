@@ -52,7 +52,7 @@ export interface SfTableColumnData {
   index?: number;
 }
 
-import { PaginationModel } from "@/api/tenant/base";
+import { PaginationModel } from "@/api/diagnosis/base";
 import { PaginationProps, TableColumnData, TableData, TableFilterData, TableRowSelection, TableSortable, TriggerProps } from "@arco-design/web-vue";
 import {
   computed,
@@ -197,8 +197,8 @@ const useLoadData = (
   pagination: Ref<PaginationProps | false>,
   rowSelection: Ref<undefined | TableRowSelection>,
   queryData: Ref<any>,
-  rowData: Ref<PaginationModel<any[]> | undefined>,
-  _loadData: (current: number, pageSize: number, queryData: any) => Promise<PaginationModel<any[]>>,
+  rowData: Ref<PaginationModel<any> | undefined>,
+  _loadData: (current: number, pageSize: number, queryData: any) => Promise<PaginationModel<any>>,
 ) => {
   const tableLoading = ref(false);
   const loadData = (showLoading = true) => {
@@ -277,18 +277,18 @@ export default defineComponent({
       type: Object as PropType<{ x?: number; y?: number }>,
     },
     loadData: {
-      type: Function as PropType<(current: number, pageSize: number, queryData: any) => Promise<PaginationModel<any[]>>>,
+      type: Function as PropType<(current: number, pageSize: number, queryData: any) => Promise<PaginationModel<any>>>,
       required: true,
     },
     formatLoadData: {
-      type: Function as PropType<(data: Ref<PaginationModel<any[]> | undefined>) => ComputedRef<TableData[]>>,
+      type: Function as PropType<(data: Ref<PaginationModel<any> | undefined>) => ComputedRef<TableData[]>>,
       required: true,
     },
   },
   emits: ["select", "selectAll", "rowClick"],
   setup(props, { emit, slots }) {
     const { defaultPagination, defaultRowSelection, scroll, displayColumnKeys: _displayColumnKeys, queryData, tableColumns } = toRefs(props);
-    const rowData = ref<PaginationModel<any[]>>();
+    const rowData = ref<PaginationModel<any>>();
     const tableData = props.formatLoadData(rowData);
     const { pagination } = usePagination(defaultPagination);
     const { rowSelection, isSelected, onSelectAll, onRowSelect } = useSelect(defaultRowSelection, tableData, emit);
