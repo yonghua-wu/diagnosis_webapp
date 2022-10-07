@@ -21,6 +21,16 @@ const route: Array<RouteRecordRaw> = [
       addToMenu: false,
     },
   },
+  {
+    path: "/Casebook/View/:id?",
+    name: "CasebookView",
+    component: () => import("@/views/Casebook/View.vue"),
+    meta: {
+      locale: "病例管理",
+      icon: "icon-file",
+      addToMenu: false,
+    },
+  },
 ];
 
 export default route;

@@ -5,7 +5,7 @@ module.exports = defineConfig({
   productionSourceMap: false,
   devServer: {
     proxy: {
-      "/diagnosis/api": {
+      "/diagnosis": {
         target: "http://localhost:3000",
       },
     },

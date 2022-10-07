@@ -1,5 +1,5 @@
 <template>
-  <a-layout-footer class="footer">Copyright © 2022 思流科技. All rights reserved.</a-layout-footer>
+  <a-layout-footer class="footer">Copyright © 2022 WYHWY. All rights reserved.</a-layout-footer>
 </template>
 
 <script lang="ts">

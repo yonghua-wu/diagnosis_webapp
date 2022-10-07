@@ -46,6 +46,12 @@ export default defineComponent({
       computed<SfTableColumnData[]>(() => {
         return [
           {
+            title: "模型名称",
+            dataIndex: "name",
+            ellipsis: true,
+            tooltip: true,
+          },
+          {
             title: "模型地址",
             dataIndex: "modelAddress",
             ellipsis: true,

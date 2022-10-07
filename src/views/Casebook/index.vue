@@ -6,7 +6,9 @@
     :queryData="queryData"
     :defaultRowSelection="rowSelection"
     :del="false"
-    :operation="['view', 'edit']"
+    :operation="['view']"
+    :rowView="clickView"
+    :rowClick="clickView"
     @select="(keys: string[]) => (rowSelection.selectedRowKeys = keys)"
   >
     <template #breadcrumb>
@@ -22,19 +24,8 @@ import Breadcrumb from "@/components/Breadcrumb.vue";
 import Casebook from "@/api/diagnosis/Casebook";
 import { SfTableColumnData } from "@/components/lib/SfTable";
 import { TableRowSelection } from "@arco-design/web-vue";
+import { useRouter } from "vue-router";
 
-// id: number;
-// patientDescription: string;
-// diagnosticStatus: number;
-// rvsIdentificationResult: string;
-// maIdentificationResult: string;
-// doctorAdvice: string;
-// userId: number;
-// patientId: number;
-// createdBy: string;
-// createdTime: string;
-// updatedBy: string;
-// updatedTime: string;
 export default defineComponent({
   name: "user-index",
   components: {
@@ -47,6 +38,7 @@ export default defineComponent({
         key: item.id,
         data: item,
         ...item,
+        diagnosticStatus: item.diagnosticStatus === 1 ? "未诊断" : "已诊断",
       };
     });
     const { tableColumns } = useTableColumns(
@@ -54,7 +46,7 @@ export default defineComponent({
         return [
           {
             title: "患者",
-            dataIndex: "userId",
+            dataIndex: "patientName",
             ellipsis: true,
             tooltip: true,
           },
@@ -70,36 +62,36 @@ export default defineComponent({
             ellipsis: true,
             tooltip: true,
           },
-          {
-            title: "RVS识别结果",
-            dataIndex: "rvsIdentificationResult",
-            ellipsis: true,
-            tooltip: true,
-          },
-          {
-            title: "MA识别结果",
-            dataIndex: "maIdentificationResult",
-            ellipsis: true,
-            tooltip: true,
-          },
+          // {
+          //   title: "RVS识别结果",
+          //   dataIndex: "rvsIdentificationResult",
+          //   ellipsis: true,
+          //   tooltip: true,
+          // },
+          // {
+          //   title: "MA识别结果",
+          //   dataIndex: "maIdentificationResult",
+          //   ellipsis: true,
+          //   tooltip: true,
+          // },
           {
             title: "医生建议",
             dataIndex: "doctorAdvice",
             ellipsis: true,
             tooltip: true,
           },
-          {
-            title: "创建时间",
-            dataIndex: "createdTime",
-            ellipsis: true,
-            tooltip: true,
-          },
-          {
-            title: "更新时间",
-            dataIndex: "updatedTime",
-            ellipsis: true,
-            tooltip: true,
-          },
+          // {
+          //   title: "创建时间",
+          //   dataIndex: "createdTime",
+          //   ellipsis: true,
+          //   tooltip: true,
+          // },
+          // {
+          //   title: "更新时间",
+          //   dataIndex: "updatedTime",
+          //   ellipsis: true,
+          //   tooltip: true,
+          // },
         ];
       }),
       ["updatedTime"],
@@ -113,9 +105,20 @@ export default defineComponent({
     const loadData = (current: number, pageSize: number, query: any) => {
       return Casebook.page(current, pageSize);
     };
+    const router = useRouter();
+    const clickView = (record: any) => {
+      console.log(record);
+      router.push({
+        name: "CasebookView",
+        params: {
+          id: record.id,
+        },
+      });
+    };
     return {
       loadData,
       formatLoadData,
+      clickView,
       rowSelection,
       tableColumns,
       queryData,

@@ -43,8 +43,8 @@ export default class Casebook {
       throw res;
     }
   }
-  public static async update(data: CasebookModel) {
-    const res = await http.post<HttpResponseBase<any>>(`/${modelName}/update`, {
+  public static async update(data: Partial<CasebookModel>) {
+    const res = await http.post<HttpResponseBase<number>>(`/${modelName}/update`, {
       ...data,
     });
     if (res.code === 200) {
@@ -53,8 +53,8 @@ export default class Casebook {
       throw res;
     }
   }
-  public static async add(data: CasebookModel) {
-    const res = await http.post<HttpResponseBase<any>>(`/${modelName}/add`, {
+  public static async create(data: Partial<CasebookModel>) {
+    const res = await http.post<HttpResponseBase<number>>(`/${modelName}/create`, {
       ...data,
     });
     if (res.code === 200) {

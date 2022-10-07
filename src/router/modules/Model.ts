@@ -7,7 +7,7 @@ const route: Array<RouteRecordRaw> = [
     component: () => import("@/views/Model/index.vue"),
     meta: {
       locale: "模型管理",
-      icon: "icon-model",
+      icon: "icon-robot",
       addToMenu: true,
     },
   },
@@ -17,7 +17,7 @@ const route: Array<RouteRecordRaw> = [
     component: () => import("@/views/Model/detail.vue"),
     meta: {
       locale: "模型管理",
-      icon: "icon-model",
+      icon: "icon-robot",
       addToMenu: false,
     },
   },

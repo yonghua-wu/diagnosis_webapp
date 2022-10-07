@@ -3,10 +3,12 @@
     <div class="left-side">
       <a-space>
         <icon-menu v-if="appStore.device === 'mobile'" style="font-size: 22px; cursor: pointer" @click="toggleDrawerMenu" />
-        <div class="logo-img">
+        <!-- <div class="logo-img">
           <img alt="logo" :src="require('@/assets/siliu_SEEINGFLOW_Blue.svg')" />
-        </div>
-        <!-- <a-typography-title :style="{ margin: 0, fontSize: '18px' }" :heading="5"> 思流科技 </a-typography-title> -->
+        </div> -->
+        <a-typography-title style="margin: 0; font-size: 18px; font-weight: bold; color: rgb(var(--primary-6))" :heading="5">
+          AI 智诊
+        </a-typography-title>
       </a-space>
     </div>
     <ul class="right-side">

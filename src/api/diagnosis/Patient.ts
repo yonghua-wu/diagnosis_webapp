@@ -1,20 +1,29 @@
+import { Message } from "@arco-design/web-vue";
 import http, { HttpResponseBase, PaginationModel } from "./base";
 
-const modelName = "model";
-// private String modelAddress;
-export interface ModelModel {
+const modelName = "patient";
+
+// private Integer id;
+// private String patientName;
+// private Integer patientGender;
+// private Integer patientAge;
+// private String phoneNumber;
+// private String pastHistory;
+// private Integer userId;
+
+export interface PatientModel {
   id: number;
-  name: string;
-  modelAddress: string;
-  createdBy: string;
-  createdTime: string;
-  updatedBy: string;
-  updatedTime: string;
+  patientName: string;
+  patientGender: number;
+  patientAge: number;
+  phoneNumber: string;
+  pastHistory: string;
+  userId: number;
 }
 
-export default class Model {
+export default class Patient {
   public static async page(current: number, pageSize: number) {
-    const res = await http.get<HttpResponseBase<PaginationModel<ModelModel>>>(`/${modelName}/page`, {
+    const res = await http.get<HttpResponseBase<PaginationModel<PatientModel>>>(`/${modelName}/page`, {
       params: {
         current: current,
         size: pageSize,
@@ -38,10 +47,10 @@ export default class Model {
     } while (current++);
     return resultList;
   }
-  public static async detail(id: number) {
+  public static async detail(patient: string) {
     const res = await http.get<HttpResponseBase<any>>(`/${modelName}/detail`, {
       params: {
-        id: id,
+        id: patient,
       },
     });
     if (res.code === 200) {
@@ -50,8 +59,8 @@ export default class Model {
       throw res;
     }
   }
-  public static async update(data: ModelModel) {
-    const res = await http.post<HttpResponseBase<any>>(`/${modelName}/update`, {
+  public static async update(data: Partial<PatientModel>) {
+    const res = await http.post<HttpResponseBase<number>>(`/${modelName}/update`, {
       ...data,
     });
     if (res.code === 200) {
@@ -60,21 +69,9 @@ export default class Model {
       throw res;
     }
   }
-  public static async create(data: ModelModel) {
-    const res = await http.post<HttpResponseBase<any>>(`/${modelName}/create`, {
+  public static async create(data: Partial<PatientModel>) {
+    const res = await http.post<HttpResponseBase<number>>(`/${modelName}/create`, {
       ...data,
-    });
-    if (res.code === 200) {
-      return res.data;
-    } else {
-      throw res;
-    }
-  }
-  public static async delete(id: number) {
-    const res = await http.delete<HttpResponseBase<any>>(`/${modelName}/delete`, {
-      params: {
-        id: id,
-      },
     });
     if (res.code === 200) {
       return res.data;

@@ -12,7 +12,7 @@ const route: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/Image/:Image/:id?",
+    path: "/Image/:model/:id?",
     name: "ImageDetail",
     component: () => import("@/views/Image/detail.vue"),
     meta: {

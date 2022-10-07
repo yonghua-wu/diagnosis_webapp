@@ -6,7 +6,8 @@
     :queryData="queryData"
     :defaultRowSelection="rowSelection"
     :del="false"
-    :operation="['view', 'edit']"
+    :operation="['view']"
+    :clickAdd="false"
     @select="(keys: string[]) => (rowSelection.selectedRowKeys = keys)"
   >
     <template #breadcrumb>
@@ -23,6 +24,15 @@ import Image from "@/api/diagnosis/Image";
 import { SfTableColumnData } from "@/components/lib/SfTable";
 import { TableRowSelection } from "@arco-design/web-vue";
 
+const imagePropertiesMap: any = {
+  1: "左眼",
+  2: "右眼",
+};
+const diagnosticStatusMap: any = {
+  1: "未诊断",
+  2: "已诊断",
+};
+
 export default defineComponent({
   name: "user-index",
   components: {
@@ -35,15 +45,19 @@ export default defineComponent({
         ...item,
         key: item.id,
         data: item,
+        imageProperties: imagePropertiesMap[item.imageProperties],
+        diagnosticStatus: diagnosticStatusMap[item.diagnosticStatus],
       };
     });
-    // imageAddress: string;
-    // imageProperties: number;
-    // diagnosticStatus: number;
-    // resultImg: string;
     const { tableColumns } = useTableColumns(
       computed<SfTableColumnData[]>(() => {
         return [
+          {
+            title: "患者姓名",
+            dataIndex: "patientName",
+            ellipsis: true,
+            tooltip: true,
+          },
           {
             title: "图像地址",
             dataIndex: "imageAddress",
@@ -57,7 +71,7 @@ export default defineComponent({
             tooltip: true,
           },
           {
-            title: "诊断状态",
+            title: "AI诊断状态",
             dataIndex: "diagnosticStatus",
             ellipsis: true,
             tooltip: true,

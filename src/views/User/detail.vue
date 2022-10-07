@@ -54,9 +54,10 @@ import SfFormItem from "@/components/lib/CU/SfFormItem";
 import { useStartStopWatch } from "@/hooks/use";
 import Message from "@/utils/Message";
 import RulesLib from "@/utils/RulesLib";
-import { Breadcrumb, ValidatedError } from "@arco-design/web-vue";
+import Breadcrumb from "@/components/Breadcrumb.vue";
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { ValidatedError } from "@arco-design/web-vue";
 export default defineComponent({
   name: "user-detail",
   components: {

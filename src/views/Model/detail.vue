@@ -1,41 +1,16 @@
 <template>
   <div class="user-detail container">
-    <Breadcrumb :items="['用户管理', '详情']" />
+    <Breadcrumb :items="['模型管理', '详情']" />
     <a-spin :loading="loading" style="width: 100%">
       <CUVue :showModalTips="showModalTips">
         <SfForm ref="refForm" :model="formData" :formModel="pageModel" :rules="rules">
-          <SfFormItem field="realName" label="用户姓名">
-            <a-input :max-length="50" v-model="formData.realName" placeholder="请输入用户姓名" />
-            <template #view>{{ formData.realName }}</template>
+          <SfFormItem field="name" label="模型名称">
+            <a-input :max-length="50" v-model="formData.name" placeholder="请输入模型名称" />
+            <template #view>{{ formData.name }}</template>
           </SfFormItem>
-          <SfFormItem field="gender" label="性别">
-            <a-select v-model="formData.gender">
-              <a-option :value="1">男</a-option>
-              <a-option :value="2">女</a-option>
-            </a-select>
-            <template #view>{{ formData.realName }}</template>
-          </SfFormItem>
-          <SfFormItem field="workExperience" label="工作年限">
-            <a-input-number :max-length="50" v-model="formData.workExperience" placeholder="请输入工作年限" />
-            <template #view>{{ formData.workExperience }}</template>
-          </SfFormItem>
-          <SfFormItem field="title" label="职称">
-            <a-select v-model="formData.title" placeholder="请选择职称">
-              <!-- 职称 1 初级职称 (医士、医师/住院医师)、2 中级职称 (主治医师)、3 副高级职称 (副主任医师)、4 正高级职称 (主任医师) -->
-              <a-option :value="1">初级职称</a-option>
-              <a-option :value="2">中级职称</a-option>
-              <a-option :value="3">副高级职称</a-option>
-              <a-option :value="4">正高级职称</a-option>
-            </a-select>
-            <template #view>{{ formData.title }}</template>
-          </SfFormItem>
-          <SfFormItem field="username" label="登录账号">
-            <a-input :max-length="50" v-model="formData.username" placeholder="请输入登录账号" />
-            <template #view>{{ formData.username }}</template>
-          </SfFormItem>
-          <SfFormItem field="password" label="设置密码" v-if="pageModel === 'Add'">
-            <a-input type="password" :max-length="50" v-model="formData.password" placeholder="请输入设置密码" />
-            <template #view>{{ formData.password }}</template>
+          <SfFormItem field="modelAddress" label="模型地址">
+            <a-input :max-length="50" v-model="formData.modelAddress" placeholder="请输入模型地址" />
+            <template #view>{{ formData.modelAddress }}</template>
           </SfFormItem>
           <SfFormItem :col-props="{ span: 24 }" v-if="pageModel !== 'View'">
             <a-button @click="save" type="primary">保存</a-button>
@@ -54,9 +29,11 @@ import SfFormItem from "@/components/lib/CU/SfFormItem";
 import { useStartStopWatch } from "@/hooks/use";
 import Message from "@/utils/Message";
 import RulesLib from "@/utils/RulesLib";
-import { Breadcrumb, ValidatedError } from "@arco-design/web-vue";
+import { ValidatedError } from "@arco-design/web-vue";
+import Breadcrumb from "@/components/Breadcrumb.vue";
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import Model, { ModelModel } from "@/api/diagnosis/Model";
 export default defineComponent({
   name: "user-detail",
   components: {
@@ -68,20 +45,12 @@ export default defineComponent({
   setup() {
     const loading = ref(false);
     const formData = ref({
-      username: "",
-      password: "",
-      gender: 1,
-      workExperience: 1,
-      title: 1,
-      realName: "",
+      name: "",
+      modelAddress: "",
     });
     const rules = {
-      realName: new RulesLib().required("请输入用户姓名").done(),
-      gender: new RulesLib().required("请选择性别").done(),
-      workExperience: new RulesLib().required("请输入工作年限").done(),
-      title: new RulesLib().required("请输入职称").done(),
-      username: new RulesLib().required("请输入登录账号").done(),
-      password: new RulesLib().required("请输入设置密码").done(),
+      name: new RulesLib().required("请输入模型名称").max(50, "模型名称最多50个字符").done(),
+      modelAddress: new RulesLib().required("请输入模型地址").done(),
     };
     const showModalTips = ref(false);
     const { startWatch, stopWatch } = useStartStopWatch(formData, () => {
@@ -92,7 +61,7 @@ export default defineComponent({
     const loadData = () => {
       loading.value = true;
       stopWatch.value?.();
-      User.detail(route.params.id as string)
+      Model.detail(route.params.id as unknown as number)
         .then((res) => {
           console.log(res);
           formData.value = res;
@@ -101,10 +70,13 @@ export default defineComponent({
           loading.value = false;
         });
     };
+    if (pageModel.value !== "Add") {
+      loadData();
+    }
     const router = useRouter();
     const update = () => {
       loading.value = true;
-      User.update(formData.value as unknown as UserModel)
+      Model.update(formData.value as unknown as ModelModel)
         .then((res) => {
           Message.success("修改成功");
           router.go(-1);
@@ -115,7 +87,7 @@ export default defineComponent({
     };
     const create = () => {
       loading.value = true;
-      User.create(formData.value as unknown as UserModel)
+      Model.create(formData.value as unknown as ModelModel)
         .then((res) => {
           router.go(-1);
           Message.success("新增成功");
@@ -136,7 +108,6 @@ export default defineComponent({
         }
       });
     };
-    loadData();
     return {
       loading,
       showModalTips,

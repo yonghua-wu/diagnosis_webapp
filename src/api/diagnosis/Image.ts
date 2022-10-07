@@ -13,6 +13,7 @@ export interface ImageModel {
   id: number;
   casebookId: number;
   patientId: number;
+  patientName: string;
   imageAddress: string;
   imageProperties: number;
   diagnosticStatus: number;
@@ -49,7 +50,7 @@ export default class Image {
       throw res;
     }
   }
-  public static async update(data: ImageModel) {
+  public static async update(data: Partial<ImageModel>) {
     const res = await http.post<HttpResponseBase<any>>(`/${modelName}/update`, {
       ...data,
     });
@@ -59,7 +60,7 @@ export default class Image {
       throw res;
     }
   }
-  public static async add(data: ImageModel) {
+  public static async create(data: Partial<ImageModel>) {
     const res = await http.post<HttpResponseBase<any>>(`/${modelName}/add`, {
       ...data,
     });
